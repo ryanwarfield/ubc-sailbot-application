@@ -110,7 +110,7 @@ def test_between_angles_180_apart():
     FIRST = -20
     SECOND = 160
 
-    for x in (-20.001, -20, -19.999, 179.999, 180, 180.001):
+    for x in (-20.001, -20, -19.999, 0, 179.999, 180, 180.001):
         assert not is_angle_between(FIRST, x, SECOND)
 
 def test_between_integers_in_simple_angle():
