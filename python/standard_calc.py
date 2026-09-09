@@ -12,15 +12,7 @@ def bound_to_180(angle):
         float: The bounded angle in degrees.
     """
 
-    reoriented = angle + 180
-    bounded = reoriented % 360 # fortunately for us python supports modulus on floating point numbers
-    oriented_back = bounded - 180
-
-    # -180 is only valid backwards angle
-    if oriented_back == 180:
-        return -180
-    else:
-        return oriented_back
+    return (angle + 180) % 360 - 180
 
 
 def is_angle_between(first_angle, middle_angle, second_angle):
@@ -39,17 +31,18 @@ def is_angle_between(first_angle, middle_angle, second_angle):
         bool: True when `middle_angle` is not in the reflex angle of `first_angle` and `second_angle`, false otherwise.
     """
 
-    first_angle_normalized = bound_to_180(first_angle)
-    middle_angle_normalized = bound_to_180(middle_angle)
-    second_angle_normalized = bound_to_180(second_angle)
+    # shift the middle and second angles by the first angle and then compare
 
-    smaller_bound = min(first_angle_normalized, second_angle_normalized)
-    bigger_bound = max(first_angle_normalized, second_angle_normalized)
+    bound = bound_to_180(second_angle - first_angle)
 
-    if bigger_bound - smaller_bound < 180:
-        return smaller_bound < middle_angle_normalized and middle_angle_normalized < bigger_bound
-    elif bigger_bound - smaller_bound > 180:
-        return middle_angle_normalized < smaller_bound or bigger_bound < middle_angle_normalized
+    if bound == -180:
+        return False # arcs are equally long, there are no between angles
+
+    middle_shifted = bound_to_180(middle_angle - first_angle)
+
+    if bound > 0:
+        return 0 < middle_shifted < bound
+    elif bound < 0:
+        return bound < middle_shifted < 0
     else:
-        # the bounds are exactly 180 degrees apart, so there is no well defined reflex arc/minor arc
-        return False
+        return False # no between angles because bounds are the same
