@@ -94,6 +94,11 @@ def test_bound_large_angles_around_1800_degrees():
 def test_between_basic1():
     assert is_angle_between(0, 1, 2)
 
+
+def test_between_basic1_reversed_bounds():
+    assert is_angle_between(2, 1, 0)
+
+
 def test_between_angles_same():
     FIRST = 50
     SECOND = 50
