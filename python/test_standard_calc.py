@@ -146,3 +146,13 @@ def test_between_multi_wrapping_angles():
         range(261, 325)
     ):
         assert is_angle_between(FIRST, x, SECOND)
+
+def test_between_precision():
+    FIRST = -20.5
+    SECOND = 90.5
+
+    for x in (-20.501, -20.5, 90.5, 90.501):
+        assert not is_angle_between(FIRST, x, SECOND)
+
+    for x in (-20.499, 90.499):
+        assert is_angle_between(FIRST, x, SECOND)
