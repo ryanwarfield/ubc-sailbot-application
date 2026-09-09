@@ -2,14 +2,14 @@ from itertools import chain
 
 from standard_calc import bound_to_180, is_angle_between
 
-"""Floating-point math on computers does not have infinite precision."""
+# Floating-point math on computers does not have infinite precision.
 
 
 def assert_floats_close_enough(a, b):
-    assert abs(a - b) < 10**-8
+    assert abs(a - b) < 10 ** -8
 
 
-""" Tests for bound_to_180() """
+# Tests for bound_to_180().
 
 
 def test_bound_basic1():
@@ -24,71 +24,69 @@ def test_bound_all_nonwrapped_integers():
 def test_bound_first_bottom_edge():
     assert_floats_close_enough(
         bound_to_180(-180.001),
-        179.999
+        179.999,
     )
 
     assert_floats_close_enough(
         bound_to_180(-180),
-        -180
+        -180,
     )
 
     assert_floats_close_enough(
         bound_to_180(-179.999),
-        -179.999
+        -179.999,
     )
 
 
 def test_bound_first_top_edge():
     assert_floats_close_enough(
         bound_to_180(179.999),
-        179.999
+        179.999,
     )
 
     assert_floats_close_enough(
         bound_to_180(180),
-        -180
+        -180,
     )
 
     assert_floats_close_enough(
         bound_to_180(180.001),
-        -179.999
+        -179.999,
     )
 
 
 def test_bound_large_angles_around_1800_degrees():
     assert_floats_close_enough(
         bound_to_180(-1800.001),
-        -0.001
+        -0.001,
     )
 
     assert_floats_close_enough(
         bound_to_180(-1800),
-        0
+        0,
     )
 
     assert_floats_close_enough(
         bound_to_180(-1799.999),
-        0.001
+        0.001,
     )
 
     assert_floats_close_enough(
         bound_to_180(1799.999),
-        -0.001
+        -0.001,
     )
 
     assert_floats_close_enough(
         bound_to_180(1800),
-        0
+        0,
     )
 
     assert_floats_close_enough(
         bound_to_180(1800.001),
-        0.001
+        0.001,
     )
 
-
-
-""" Tests for is_angle_between() """
+# Tests for is_angle_between().
 
 
 def test_between_basic1():
@@ -106,12 +104,14 @@ def test_between_angles_same():
     for x in (49.999, 50, 50.001):
         assert not is_angle_between(FIRST, x, SECOND)
 
+
 def test_between_angles_180_apart():
     FIRST = -20
     SECOND = 160
 
     for x in (-20.001, -20, -19.999, 0, 179.999, 180, 180.001):
         assert not is_angle_between(FIRST, x, SECOND)
+
 
 def test_between_integers_in_simple_angle():
     FIRST = -20
@@ -123,6 +123,7 @@ def test_between_integers_in_simple_angle():
     for x in range(21, 90):
         assert is_angle_between(FIRST, x, SECOND)
 
+
 def test_between_integers_in_single_wrapping_angle():
     FIRST = 150
     SECOND = 225
@@ -133,6 +134,7 @@ def test_between_integers_in_single_wrapping_angle():
     for x in range(151, 224):
         assert is_angle_between(FIRST, x, SECOND)
 
+
 def test_between_multi_wrapping_angles():
     FIRST = 325
     SECOND = -460
@@ -141,16 +143,17 @@ def test_between_multi_wrapping_angles():
         range(-500, -460),
         range(-395, -99),
         range(-35, 261),
-        range(325, 401)
+        range(325, 401),
     ):
         assert not is_angle_between(FIRST, x, SECOND)
 
     for x in chain(
         range(-459, -395),
         range(-99, -35),
-        range(261, 325)
+        range(261, 325),
     ):
         assert is_angle_between(FIRST, x, SECOND)
+
 
 def test_between_precision():
     FIRST = -20.5

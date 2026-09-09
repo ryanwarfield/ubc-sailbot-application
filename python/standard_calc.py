@@ -28,21 +28,21 @@ def is_angle_between(first_angle, middle_angle, second_angle):
         second_angle (float): The second bounding angle in degrees.
 
     Returns:
-        bool: True when `middle_angle` is not in the reflex angle of `first_angle` and `second_angle`, false otherwise.
+        bool: True when `middle_angle` is not in the reflex angle of
+            `first_angle` and `second_angle`, otherwise false.
     """
 
-    # shift the middle and second angles by the first angle and then compare
+    # Shift the middle and second angles by the first angle before comparing.
 
     bound = bound_to_180(second_angle - first_angle)
 
     if bound == -180:
-        return False # arcs are equally long, there are no between angles
+        return False  # Arcs are equally long, so no angle is definitively between.
 
     middle_shifted = bound_to_180(middle_angle - first_angle)
 
     if bound > 0:
         return 0 < middle_shifted < bound
-    elif bound < 0:
+    if bound < 0:
         return bound < middle_shifted < 0
-    else:
-        return False # no between angles because bounds are the same
+    return False  # No angle is between identical bounds.
